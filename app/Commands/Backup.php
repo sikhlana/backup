@@ -2,10 +2,12 @@
 
 namespace App\Commands;
 
+use App\Concerns\CreatesFilesystem;
 use App\Concerns\FetchesHomeDirectory;
 use App\Concerns\FetchesKeyFileContents;
+use App\Models\Project;
 use App\Support\Os;
-use League\Flysystem\Adapter\Local;
+use App\Tasks\ProjectBackupTask;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Backup extends Command
 {
-    use FetchesKeyFileContents, FetchesHomeDirectory;
+    use FetchesKeyFileContents, FetchesHomeDirectory, CreatesFilesystem;
 
     /**
      * @var Filesystem
@@ -30,6 +32,10 @@ class Backup extends Command
                  'target', 't', InputOption::VALUE_OPTIONAL,
                  'The absolute path where the projects will be backed up.',
                  $this->getHomeDirectory(true) . DIRECTORY_SEPARATOR . 'gfnbackups'
+             )
+             ->addOption(
+                 'dry-run', null, InputOption::VALUE_NONE,
+                 'Validates the project json files.'
              )
              ->setDescription('Initiates the backup process.');
     }
@@ -53,10 +59,14 @@ class Backup extends Command
             return 1;
         }
 
-        $this->fs = new Filesystem(new Local($source));
+        $this->fs = $this->createLocalFilesystem($source);
 
         foreach ($this->scanForProjectRoot() as $path) {
-            // todo
+            $task = new ProjectBackupTask($source . DIRECTORY_SEPARATOR . $path, $output);
+
+            if (! $input->getOption('dry-run')) {
+                $task->run();
+            }
         }
 
         return 0;
@@ -69,7 +79,7 @@ class Backup extends Command
                 continue;
             }
 
-            if ($node['basename'] == '.gfnbak') {
+            if ($node['basename'] == Project::PROJECT_JSON_FILENAME) {
                 yield $path;
             } else if ($node['type'] == 'dir') {
                 yield from $this->scanForProjectRoot($node['path']);
