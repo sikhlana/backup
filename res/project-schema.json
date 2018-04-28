@@ -26,13 +26,47 @@
           "connection": {
             "type": "object",
             "description": "An object containing the details of the database connection.",
-            "properties": {
-              "required": ["driver"],
-              "driver": {
-                "type": "string",
-                "enum": ["mysql", "postgresql", "mongodb", "sqlite"]
+            "oneOf": [
+              {
+                "properties": {
+                  "driver": {"enum": ["mysql"]},
+                  "host": {"type": "string", "required": true},
+                  "port": {"type": "number"},
+                  "database": {"type": "string", "required": true},
+                  "username": {"type": "string", "required": true},
+                  "password": {"type": "string"},
+                  "charset": {"type": "string"}
+                }
+              },
+              {
+                "properties": {
+                  "driver": {"enum": ["pgsql"]},
+                  "host": {"type": "string", "required": true},
+                  "port": {"type": "number"},
+                  "database": {"type": "string", "required": true},
+                  "username": {"type": "string", "required": true},
+                  "password": {"type": "string"}
+                }
+              },
+              {
+                "properties": {
+                  "driver": {"enum": ["sqlite"]},
+                  "file": {"type": "string", "required": true}
+                }
+              },
+              {
+                "properties": {
+                  "driver": {"enum": ["mongodb"]},
+                  "host": {"type": "string", "required": true},
+                  "port": {"type": "number"},
+                  "database": {"type": "string", "required": true},
+                  "username": {"type": "string"},
+                  "password": {"type": "string"},
+                  "collection": {"type": "string"},
+                  "authentication-database": {"type": "string"}
+                }
               }
-            }
+            ]
           }
         }
       }
