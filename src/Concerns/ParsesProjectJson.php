@@ -19,7 +19,7 @@ trait ParsesProjectJson
             self::validateJsonSyntax($content, $filename);
         }
 
-        $schemaFile = __DIR__ . '../../res/project-schema.json';
+        $schemaFile = __DIR__ . '/../../res/project-schema.json';
 
         if (strpos($schemaFile, '://') === false) {
             $schemaFile = 'file://' . $schemaFile;
