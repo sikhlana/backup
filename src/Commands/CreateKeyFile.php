@@ -32,7 +32,7 @@ class CreateKeyFile extends Command
             return 1;
         }
 
-        file_put_contents($filename, random_bytes(64));
+        file_put_contents($filename, random_bytes(256));
         $output->writeln('<info>Key file successfully created.</info>');
 
         return 0;
