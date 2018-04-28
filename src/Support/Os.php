@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Support;
+namespace Sikhlana\Backup\Support;
 
 class Os
 {

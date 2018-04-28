@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions;
+namespace Sikhlana\Backup\Exceptions;
 
 class HomeDirectoryException extends \RuntimeException
 {

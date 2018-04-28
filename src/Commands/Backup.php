@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Commands;
+namespace Sikhlana\Backup\Commands;
 
-use App\Concerns\CreatesFilesystem;
-use App\Concerns\FetchesHomeDirectory;
-use App\Concerns\FetchesKeyFileContents;
-use App\Models\Project;
-use App\Support\Os;
-use App\Tasks\ProjectBackupTask;
+use Sikhlana\Backup\Concerns\CreatesFilesystem;
+use Sikhlana\Backup\Concerns\FetchesHomeDirectory;
+use Sikhlana\Backup\Concerns\FetchesKeyFileContents;
+use Sikhlana\Backup\Models\Project;
+use Sikhlana\Backup\Support\Os;
+use Sikhlana\Backup\Tasks\ProjectBackupTask;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

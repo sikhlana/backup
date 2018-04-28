@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Concerns;
+namespace Sikhlana\Backup\Concerns;
 
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;

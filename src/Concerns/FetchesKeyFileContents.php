@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Concerns;
+namespace Sikhlana\Backup\Concerns;
 
-use App\Exceptions\KeyFileException;
+use Sikhlana\Backup\Exceptions\KeyFileException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

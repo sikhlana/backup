@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Concerns;
+namespace Sikhlana\Backup\Concerns;
 
-use App\Exceptions\JsonValidationException;
-use App\Models\Project;
+use Sikhlana\Backup\Exceptions\JsonValidationException;
+use Sikhlana\Backup\Models\Project;
 use JsonSchema\Validator;
 use Seld\JsonLint\JsonParser;
 use Seld\JsonLint\ParsingException;

@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Commands\Backup;
-use App\Commands\CreateKeyFile;
+use Sikhlana\Backup\Commands\Backup;
+use Sikhlana\Backup\Commands\CreateKeyFile;
 use NunoMaduro\Collision\Provider;
 use Symfony\Component\Console\Application as BaseApplication;
 

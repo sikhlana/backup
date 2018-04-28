@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tasks;
+namespace Sikhlana\Backup\Tasks;
 
-use App\Concerns\CreatesFilesystem;
-use App\Concerns\ParsesProjectJson;
-use App\Models\Project;
+use Sikhlana\Backup\Concerns\CreatesFilesystem;
+use Sikhlana\Backup\Concerns\ParsesProjectJson;
+use Sikhlana\Backup\Models\Project;
 use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Output\OutputInterface;
 

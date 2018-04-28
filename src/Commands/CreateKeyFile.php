@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Commands;
+namespace Sikhlana\Backup\Commands;
 
-use App\Concerns\FetchesHomeDirectory;
+use Sikhlana\Backup\Concerns\FetchesHomeDirectory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

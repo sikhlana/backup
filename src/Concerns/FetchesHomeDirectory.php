@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Concerns;
+namespace Sikhlana\Backup\Concerns;
 
-use App\Exceptions\HomeDirectoryException;
+use Sikhlana\Backup\Exceptions\HomeDirectoryException;
 
 trait FetchesHomeDirectory
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tasks;
+namespace Sikhlana\Backup\Tasks;
 
 use Symfony\Component\Console\Output\OutputInterface;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Sikhlana\Backup\Models;
 
 abstract class Model
 {
