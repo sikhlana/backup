@@ -5,6 +5,37 @@
   "additionalProperties": false,
   "required": ["name"],
   "properties": {
-
+    "name": {
+      "type": "string",
+      "description": "An unique name of the project.",
+      "pattern": "^[a-zA-Z]([\\-_]*[a-zA-Z0-9])*$"
+    },
+    "databases": {
+      "type": "array",
+      "description": "A list of any databases that need to be backed up.",
+      "items": {
+        "type": "object",
+        "description": "An object containing the details of the database.",
+        "required": ["name", "connection"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "An unique name of the database that will be used to save the database to filesystem.",
+            "pattern": "^[a-zA-Z]([\\-_]*[a-zA-Z0-9])*$"
+          },
+          "connection": {
+            "type": "object",
+            "description": "An object containing the details of the database connection.",
+            "properties": {
+              "required": ["driver"],
+              "driver": {
+                "type": "string",
+                "enum": ["mysql", "postgresql", "mongodb", "sqlite"]
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
