@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Commands;
+
+use App\Concerns\FetchesHomeDirectory;
+use App\Concerns\FetchesKeyFileContents;
+use App\Support\Os;
+use League\Flysystem\Adapter\Local;
+use League\Flysystem\Filesystem;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+
+class Backup extends Command
+{
+    use FetchesKeyFileContents, FetchesHomeDirectory;
+
+    /**
+     * @var Filesystem
+     */
+    private $fs;
+
+    protected function configure()
+    {
+        $this->setName('backup')
+             ->addArgument('source', InputArgument::REQUIRED, 'The absolute path to where the projects\' root directory.')
+             ->addOption(
+                 'target', 't', InputOption::VALUE_OPTIONAL,
+                 'The absolute path where the projects will be backed up.',
+                 $this->getHomeDirectory(true) . DIRECTORY_SEPARATOR . 'gfnbackups'
+             )
+             ->setDescription('Initiates the backup process.');
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $source = $input->getArgument('source');
+
+        if (! file_exists($source)) {
+            $output->writeln('<error>The source path does not exist.</error>');
+            return 1;
+        }
+
+        if (! is_dir($source)) {
+            $output->writeln('<error>The source path is not a valid directory.</error>');
+            return 1;
+        }
+
+        if (! is_readable($source)) {
+            $output->writeln('<error>The source path is not readable.</error>');
+            return 1;
+        }
+
+        $this->fs = new Filesystem(new Local($source));
+
+        foreach ($this->scanForProjectRoot() as $path) {
+            // todo
+        }
+
+        return 0;
+    }
+
+    private function scanForProjectRoot($path = '')
+    {
+        foreach ($this->fs->listContents($path) as $node) {
+            if (Os::isSystemPath($node['basename'])) {
+                continue;
+            }
+
+            if ($node['basename'] == '.gfnbak') {
+                yield $path;
+            } else if ($node['type'] == 'dir') {
+                yield from $this->scanForProjectRoot($node['path']);
+            }
+        }
+    }
+}
