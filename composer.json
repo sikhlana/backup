@@ -6,7 +6,8 @@
         "php": ">=7.1",
         "symfony/console": "^4.0",
         "league/flysystem": "^1.0",
-        "defuse/php-encryption": "^2.2"
+        "defuse/php-encryption": "^2.2",
+        "spatie/db-dumper": "^2.10"
     },
     "require-dev": {
         "filp/whoops": "^2.1",
