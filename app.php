@@ -2,4 +2,4 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-(new \App\Application)->run();
+(new Sikhlana\Backup\Application)->run();

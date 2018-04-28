@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Sikhlana\Backup;
 
 use Sikhlana\Backup\Commands\Backup;
 use Sikhlana\Backup\Commands\CreateKeyFile;
