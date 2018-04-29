@@ -2,9 +2,9 @@
 
 namespace Sikhlana\Backup;
 
+use NunoMaduro\Collision\Provider;
 use Sikhlana\Backup\Commands\Backup;
 use Sikhlana\Backup\Commands\CreateKeyFile;
-use NunoMaduro\Collision\Provider;
 use Sikhlana\Backup\Exceptions\JsonValidationException;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Output\OutputInterface;

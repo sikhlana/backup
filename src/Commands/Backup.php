@@ -2,13 +2,13 @@
 
 namespace Sikhlana\Backup\Commands;
 
+use League\Flysystem\Filesystem;
 use Sikhlana\Backup\Concerns\CreatesFilesystem;
 use Sikhlana\Backup\Concerns\FetchesHomeDirectory;
 use Sikhlana\Backup\Concerns\FetchesKeyFileContents;
 use Sikhlana\Backup\Models\Project;
 use Sikhlana\Backup\Support\Os;
 use Sikhlana\Backup\Tasks\ProjectBackupTask;
-use League\Flysystem\Filesystem;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -73,7 +73,7 @@ class Backup extends Command
 
             if (! $input->getOption('dry-run')) {
                 if ($input->getOption('no-databases')) {
-
+                    $task->doNotDumpDatabases();
                 }
 
                 $task->run();
