@@ -2,6 +2,7 @@
 
 namespace Sikhlana\Backup\Concerns;
 
+use Defuse\Crypto\Key;
 use Sikhlana\Backup\Exceptions\KeyFileException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 trait FetchesKeyFileContents
 {
     /**
-     * @var string
+     * @var Key
      */
     protected $key;
 
@@ -25,10 +26,6 @@ trait FetchesKeyFileContents
             throw new KeyFileException('Will not be able to read the key file.');
         }
 
-        $this->key = file_get_contents($filename);
-
-        if (empty ($this->key)) {
-            throw new KeyFileException('The key cannot be empty.');
-        }
+        $this->key = Key::loadFromAsciiSafeString(file_get_contents($filename));
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Sikhlana\Backup\Tasks;
 
+use Defuse\Crypto\File;
+use Defuse\Crypto\Key;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
@@ -10,6 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DatabaseDumpTask extends Task
 {
+    /**
+     * @var Key
+     */
+    protected $key;
+
     /**
      * @var string
      */
@@ -25,10 +32,11 @@ class DatabaseDumpTask extends Task
      */
     protected $root;
 
-    public function __construct(string $name, array $config, string $root, OutputInterface $output)
+    public function __construct(Key $key, string $name, array $config, string $root, OutputInterface $output)
     {
         parent::__construct($output);
 
+        $this->key = $key;
         $this->name = $name;
         $this->root = $root;
         $this->config = $config;
@@ -77,10 +85,14 @@ class DatabaseDumpTask extends Task
                 throw new \RuntimeException('Undefined database driver specified.');
         }
 
-        $dumper->dumpToFile(sprintf(
-            '%s/%s.sql', $this->root, date('Y-m-d-H-i-s')
-        ));
+        $temp = tempnam(sys_get_temp_dir(), 'gfnbak');
+        $dumper->dumpToFile($temp);
+
+        File::encryptFile($temp, sprintf(
+            '%s/%s.sql.encrypted', $this->root, date('Y-m-d-H-i-s')
+        ), $this->key);
 
         $this->output->writeln('<info>Successfully dumped the database `' . $this->name . '`.</info>');
+        unlink($temp);
     }
 }

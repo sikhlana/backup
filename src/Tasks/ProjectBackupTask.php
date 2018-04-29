@@ -2,6 +2,7 @@
 
 namespace Sikhlana\Backup\Tasks;
 
+use Defuse\Crypto\Key;
 use Sikhlana\Backup\Concerns\CreatesFilesystem;
 use Sikhlana\Backup\Concerns\ParsesProjectJson;
 use Sikhlana\Backup\Models\Project;
@@ -32,11 +33,11 @@ class ProjectBackupTask extends Task
     protected $dumpDatabases = true;
 
     /**
-     * @var string
+     * @var Key
      */
     protected $key;
 
-    public function __construct(string $key, string $source, string $target, OutputInterface $output)
+    public function __construct(Key $key, string $source, string $target, OutputInterface $output)
     {
         parent::__construct($output);
 
@@ -60,8 +61,7 @@ class ProjectBackupTask extends Task
 
         if ($this->dumpDatabases) {
             foreach ($this->project->getAttribute('databases') as $config) {
-                (new DatabaseDumpTask($config['name'], $config['connection'], $this->project->getPathForDatabaseDump($config['name']), $this->output))->run();
-                (new FileEncryptTask($this->key, $this->project->getPathForDatabaseDump($config['name']), $this->output))->run();
+                (new DatabaseDumpTask($this->key, $config['name'], $config['connection'], $this->project->getPathForDatabaseDump($config['name']), $this->output))->run();
             }
         }
     }

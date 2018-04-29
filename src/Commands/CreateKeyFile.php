@@ -2,6 +2,7 @@
 
 namespace Sikhlana\Backup\Commands;
 
+use Defuse\Crypto\Key;
 use Sikhlana\Backup\Concerns\FetchesHomeDirectory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,7 +33,7 @@ class CreateKeyFile extends Command
             return 1;
         }
 
-        file_put_contents($filename, random_bytes(256));
+        file_put_contents($filename, Key::createNewRandomKey()->saveToAsciiSafeString());
         $output->writeln('<info>Key file successfully created.</info>');
 
         return 0;
