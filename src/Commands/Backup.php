@@ -37,6 +37,10 @@ class Backup extends Command
                  'dry-run', null, InputOption::VALUE_NONE,
                  'Validates the project json files.'
              )
+             ->addOption(
+                 'no-databases', null, InputOption::VALUE_NONE,
+                 'Use this switch to disable database dumping.'
+             )
              ->setDescription('Initiates the backup process.');
     }
 
@@ -62,9 +66,16 @@ class Backup extends Command
         $this->fs = $this->createLocalFilesystem($source);
 
         foreach ($this->scanForProjectRoot() as $path) {
-            $task = new ProjectBackupTask($source . DIRECTORY_SEPARATOR . $path, $output);
+            $task = new ProjectBackupTask(
+                $this->key, $source . DIRECTORY_SEPARATOR . $path,
+                $input->getOption('target'), $output
+            );
 
             if (! $input->getOption('dry-run')) {
+                if ($input->getOption('no-databases')) {
+
+                }
+
                 $task->run();
             }
         }
