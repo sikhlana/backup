@@ -13,8 +13,11 @@ class Application extends BaseApplication
 {
     const VERSION = '1.0.0 Alpha 1';
 
+    public static $time;
+
     public function __construct()
     {
+        self::$time = time();
         parent::__construct('GoodForNothing Backup', self::VERSION);
 
         (new Provider)->register();

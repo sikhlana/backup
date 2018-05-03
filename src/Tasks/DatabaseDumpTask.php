@@ -4,6 +4,7 @@ namespace Sikhlana\Backup\Tasks;
 
 use Defuse\Crypto\File;
 use Defuse\Crypto\Key;
+use Sikhlana\Backup\Application;
 use Spatie\DbDumper\Databases\MongoDb;
 use Spatie\DbDumper\Databases\MySql;
 use Spatie\DbDumper\Databases\PostgreSql;
@@ -89,7 +90,7 @@ class DatabaseDumpTask extends Task
         $dumper->dumpToFile($temp);
 
         File::encryptFile($temp, sprintf(
-            '%s/%s.sql.encrypted', $this->root, date('Y-m-d-H-i-s')
+            '%s/%s.sql.encrypted', $this->root, date('Y-m-d-H-i-s', Application::$time)
         ), $this->key);
 
         $this->output->writeln('<info>Successfully dumped the database `' . $this->name . '`.</info>');
