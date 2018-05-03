@@ -41,6 +41,10 @@ class Backup extends Command
                  'no-databases', null, InputOption::VALUE_NONE,
                  'Use this switch to disable database dumping.'
              )
+             ->addOption(
+                 'full', 'f', InputOption::VALUE_NONE,
+                 'Use this switch to make a complete backup.'
+             )
              ->setDescription('Initiates the backup process.');
     }
 
@@ -74,6 +78,10 @@ class Backup extends Command
             if (! $input->getOption('dry-run')) {
                 if ($input->getOption('no-databases')) {
                     $task->doNotDumpDatabases();
+                }
+
+                if ($input->getOption('full')) {
+                    $task->doNotCreatePartialBackup();
                 }
 
                 $task->run();
